@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #locales
     'aplicaciones.estadisticos',
+    #terceros
+    'widget_tweaks',
+    
 ]
 
 MIDDLEWARE = [

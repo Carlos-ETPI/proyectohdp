@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lista de Empresas</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+   <style>
+      .btn {
+         margin-right: 10px;
+      }
+   </style>
+</head>
+<body>
+   {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+      setTimeout(function() {
+          document.querySelector('.alert').classList.add('d-none');
+      }, 5000);
+  </script>
+{% endif %}
+   <div class="container">
+      <h1>Lista Empresas</h1>
+      <div class="container mt-3">
+        <div class="row mb-3">
+           <div class="col-12 text-right">
+              <a href="{% url 'estadisticos_app:crear-empresa'%}" class="btn btn-primary">Agregar Empresa</a>
+           </div>
+        </div>
+      <table class="table">
+         <thead>
+            <tr>
+               
+               <th>Nombre</th>
+               <th>Sexo</th>
+               <th>Localizacion</th>
+               <th>Discapacidad</th>
+               <th>Total Personas</th>
+               <th>Censo</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+         <tbody>
+			{% for e in lista_empresas  %}
+				<tr>
+				   
+                    <td>{{ e.nombre_empresa }}</td>
+                    <td>{{ e.sexo}}</td>
+                    <td>{{ e.localizacion }}</td>
+                    <td>{{ e.tipo_discapacidad }}</td>
+                    <td>{{ e.total_personas }}</td>
+                    <td>{{ e.censo }}</td>
+				   <td>
+					  <a href="#" class="btn btn-primary btn-sm">Editar</a>
+					  <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+				   </td>
+				</tr>
+			{% endfor %} 
+         </tbody>
+      </table>
+   </div>
+</body>
+</html>

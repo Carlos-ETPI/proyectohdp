@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+    <title>Eliminar Discapacidad</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+          <div class="col-lg-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Eliminar Discapacidad</h2>
+                        <form method="post">
+                        {% csrf_token %}
+                        <p>Desea eliminar la discapacidad seleccionada?</p>
+                        <button type="submit" class="btn btn-danger">Si</button>
+                        <a href="{% url 'estadisticos_app:listar-discapacidad' %}" class="btn btn-secondary">Cancelar</a>
+                        </form>
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

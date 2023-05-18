@@ -33,6 +33,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #locales
     'aplicaciones.estadisticos',
+    'aplicaciones.login',
+    'widget_tweaks',
+    
 ]
 
 MIDDLEWARE = [

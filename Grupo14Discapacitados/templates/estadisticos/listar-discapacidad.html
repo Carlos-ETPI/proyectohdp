@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Lista de Discapacidad</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css">
+   <style>
+      .btn {
+         margin-right: 10px;
+      }
+   </style>
+</head>
+<body>
+   {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <script>
+      setTimeout(function() {
+          document.querySelector('.alert').classList.add('d-none');
+      }, 5000);
+  </script>
+{% endif %}
+   <div class="container">
+      <h1>Lista Discapacidad</h1>
+      <div class="container mt-3">
+        <div class="row mb-3">
+           <div class="col-12 text-right">
+              <a href="{% url 'estadisticos_app:crear-discapacidad' %}" class="btn btn-primary">Agregar Discapacidad</a>
+           </div>
+        </div>
+      <table class="table">
+         <thead>
+            <tr>
+               <th>Discapacidad</th>
+               <th>Sexo</th>
+               <th>Zona</th>
+               <th>Total Personas</th>
+               <th>Accion</th>
+            </tr>
+         </thead>
+         <tbody>
+			{% for d in lista_discapacitado  %}
+				<tr>
+				   <td>{{ d.tipo_discapacidad }}</td>
+                    <td>{{ d.sexo }}</td>
+                    <td>{{ d.localizacion}}</td>
+                    <td>{{ d.total_personas}}</td>
+				   <td>
+					  <a href="{% url 'estadisticos_app:modificar-discapacidad' d.id_discapacidad %}" class="btn btn-primary btn-sm">Editar</a>
+					  <a href="{% url 'estadisticos_app:eliminar-discapacidad' d.id_discapacidad %}" class="btn btn-danger btn-sm">Eliminar</a>
+				   </td>
+				</tr>
+			{% endfor %} 
+         </tbody>
+      </table>
+   </div>
+</body>
+</html>
