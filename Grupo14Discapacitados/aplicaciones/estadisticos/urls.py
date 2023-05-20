@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+import aplicaciones.estadisticos.views 
 app_name='estadisticos_app'
 urlpatterns = [
     path('estadisticos/prueba/',views.prueba,name='prueba'),
@@ -10,4 +10,6 @@ urlpatterns = [
     path('estadisticos/crear-discapacidad/',views.CrearDiscapacidad.as_view(),name='crear-discapacidad'),
     path('estadisticos/eliminar-discapacidad/<pk>/',views.EliminarDiscapacidad.as_view(),name='eliminar-discapacidad'),
     path('estadisticos/modificar-discapacidad/<pk>/',views.ModificarDiscapacidad.as_view(),name='modificar-discapacidad'),
+    path('estadisticos/generales',views.estadisticas,name="estadisticas generales"),
+    path('estadisticos/getcenso',views.getCenso,name="estadisticas generales"),
 ]

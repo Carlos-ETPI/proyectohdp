@@ -4,10 +4,23 @@ from django.db import models
 class Censo(models.Model):
     idcenso=models.BigAutoField(primary_key=True)
     nombre_censo=models.CharField(max_length=255)
+    discapacidad=models.CharField(max_length=255,default="")
+    isGeneral=models.BooleanField(default=False)
     fecha = models.DateField()
     activo=models.BooleanField('Activo')
     def __str__(self):
         return self.nombre_censo
+
+
+class Zona(models.Model):
+    idzona=models.BigAutoField(primary_key=True)
+    censo=models.ForeignKey(Censo,on_delete=models.CASCADE)
+    cantmujeres=models.IntegerField()
+    cantHombres=models.IntegerField()
+    localidad=models.CharField(max_length=50)
+    isUrbano=models.BooleanField()
+
+
 class Discapacidad(models.Model):
     id_discapacidad=models.BigAutoField(primary_key=True)
     GENDER_CHOICES = (

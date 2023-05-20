@@ -14,15 +14,11 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+SECRET_KEY='django-insecure-e5y6@&m!(*6hl!!so=ngxi7g#+f3ku9h@!!+k)0b&4#2rd!)n%'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-e5y6@&m!(*6hl!!so=ngxi7g#+f3ku9h@!!+k)0b&4#2rd!)n%'
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -39,7 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #locales
     'aplicaciones.estadisticos',
-    #terceros
+    'aplicaciones.login',
     'widget_tweaks',
     
 ]
@@ -59,7 +55,7 @@ ROOT_URLCONF = 'Grupo14Discapacitados.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR /'templates',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -72,16 +68,19 @@ TEMPLATES = [
     },
 ]
 
+
+
 WSGI_APPLICATION = 'Grupo14Discapacitados.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'correcciones3',
+        'USER': 'vane',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
+        'DATABASE_PORT': '5432',
     }
 }
 
@@ -121,6 +120,12 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+print(str(BASE_DIR) + " ")
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'templates',
+]
 
 STATIC_URL = '/static/'
 

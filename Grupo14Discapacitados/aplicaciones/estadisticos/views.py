@@ -1,6 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
-from .models import Empresa,Discapacidad
+from .models import Censo, Empresa,Discapacidad
 from django.urls import reverse_lazy
 from .forms import EmpresaForm,DiscapacidadForm
 from django.contrib import messages
@@ -52,3 +53,12 @@ class CrearEmpresa(CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'La empresa se ha agregado exitosamente')
         return super().form_valid(form)
+    
+
+def estadisticas(request):
+    contexto={}
+    return render(request,"estadisticos/generales.html",contexto)
+
+def getCenso(request):
+    data= list(Censo.objects.values())
+    return JsonResponse(data,safe=False)
