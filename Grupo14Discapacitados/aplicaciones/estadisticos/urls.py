@@ -11,5 +11,5 @@ urlpatterns = [
     path('estadisticos/eliminar-discapacidad/<pk>/',views.EliminarDiscapacidad.as_view(),name='eliminar-discapacidad'),
     path('estadisticos/modificar-discapacidad/<pk>/',views.ModificarDiscapacidad.as_view(),name='modificar-discapacidad'),
     path('estadisticos/generales',views.estadisticas,name="estadisticas generales"),
-    path('estadisticos/getcenso',views.getCenso,name="estadisticas generales"),
+    path('estadisticos/getcenso/<id>',views.getCenso,name="estadisticas generales"),
 ]

@@ -17,8 +17,20 @@ class Zona(models.Model):
     censo=models.ForeignKey(Censo,on_delete=models.CASCADE)
     cantmujeres=models.IntegerField()
     cantHombres=models.IntegerField()
-    localidad=models.CharField(max_length=50)
+    localidad=models.ForeignKey('Localidad',on_delete=models.CASCADE)
+    
+
+class Localidad(models.Model):
+    idlocalidad=models.BigAutoField(primary_key=True)
+    nombre=models.CharField(max_length=50)
     isUrbano=models.BooleanField()
+    tipo=models.ForeignKey('TipoLocalidad',on_delete=models.CASCADE)
+
+
+class TipoLocalidad(models.Model):
+    idtipo=models.BigAutoField(primary_key=True)
+    nombre=models.CharField(max_length=50)
+
 
 
 class Discapacidad(models.Model):

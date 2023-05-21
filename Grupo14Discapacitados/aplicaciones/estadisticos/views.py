@@ -5,6 +5,7 @@ from .models import Censo, Empresa,Discapacidad
 from django.urls import reverse_lazy
 from .forms import EmpresaForm,DiscapacidadForm
 from django.contrib import messages
+from django.core import serializers
 # Create your views here.
 def prueba(request):
     return render(request,'estadisticos/prueba.html')
@@ -59,6 +60,6 @@ def estadisticas(request):
     contexto={}
     return render(request,"estadisticos/generales.html",contexto)
 
-def getCenso(request):
-    data= list(Censo.objects.values())
+def getCenso(request,id):
+    data=serializers.serialize('json',Censo.objects.filter(idcenso=id ))
     return JsonResponse(data,safe=False)
