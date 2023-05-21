@@ -1,0 +1,94 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estadisticas-</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+
+<body>
+    <div class="container-md">
+        <div class="row">
+            {% if censo %}
+            <h6 class="display-6">Nombre: {{censo.nombre_censo}}</h6>
+            <h6 class="display-6">Discapacidad:{{censo.discapacidad}}</h6>
+            <h6 class="display-6">Fecha:{{censo.fecha}}</h6>
+            <h6 class="display-6">Descripcion:{{censo.descripcion}}</h6>
+            {% endif %}
+
+        </div>
+        <div class="row">
+            <h1 class="display-4">Cantidad vs Localidad</h1>
+            <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+        </div>
+        <div class="row">
+            <h1 class="display-4">Cantidad vs Zona</h1>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h1 class="display-6">Cantidad vs Localidad # Mujeres</h1>
+            </div>
+            <div class="col">
+                <h1 class="display-6">Cantidad vs Localidad # Hombres </h1>
+
+            </div>
+        </div>
+
+
+    </div>
+    <script src="{% static 'js/chartjs/chart.umd.js' %}"></script>
+    <script>
+        const options = {
+            method: 'GET',
+            mode: 'no-cors',
+            credentials: 'omit',
+            redirect: 'follow',
+        };
+
+        fetch('http://127.0.0.1:8000/estadisticos/getcenso/2', options)
+            .then(response => response.json())
+            .then(data => {
+                console.log('El objeto')
+                let obtenido = JSON.parse(data[1])
+                console.log(obtenido);
+                console.log('el json')
+                console.log(data[0]);
+            })
+            .catch(err => console.error(err));
+        (async function () {
+            const data = [
+                { year: 2010, count: 10 },
+                { year: 2011, count: 20 },
+                { year: 2012, count: 15 },
+                { year: 2013, count: 25 },
+                { year: 2014, count: 22 },
+                { year: 2015, count: 30 },
+                { year: 2016, count: 28 },
+            ];
+
+            new Chart(
+                document.getElementById('acquisitions'),
+                {
+                    type: 'bar',
+                    data: {
+                        labels: data.map(row => row.year),
+                        datasets: [
+                            {
+                                label: 'Acquisitions by year',
+                                data: data.map(row => row.count)
+                            }
+                        ]
+                    }
+                }
+            );
+        })();
+    </script>
+</body>
+
+</html>

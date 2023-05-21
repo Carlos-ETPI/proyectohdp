@@ -1,11 +1,12 @@
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
-from .models import Censo, Empresa,Discapacidad
+from .models import Censo, Empresa,Discapacidad, Zona
 from django.urls import reverse_lazy
 from .forms import EmpresaForm,DiscapacidadForm
 from django.contrib import messages
-from django.core import serializers
+from django.core.serializers import serialize 
+
 # Create your views here.
 def prueba(request):
     return render(request,'estadisticos/prueba.html')
@@ -61,5 +62,29 @@ def estadisticas(request):
     return render(request,"estadisticos/generales.html",contexto)
 
 def getCenso(request,id):
-    data=serializers.serialize('json',Censo.objects.filter(idcenso=id ))
+    data= list()
+    data.append(serialize('json',Censo.objects.filter(idcenso=id)))
+    data.append(serialize('json',Zona.objects.filter(censo=id)))
     return JsonResponse(data,safe=False)
+
+def verGrafica(request,id):
+
+    contexto={}
+    data=Censo.objects.filter(idcenso=id).first()
+    contexto['censo']=data 
+
+    return render(request,'estadisticos/vergraficos.html',contexto)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -12,4 +12,5 @@ urlpatterns = [
     path('estadisticos/modificar-discapacidad/<pk>/',views.ModificarDiscapacidad.as_view(),name='modificar-discapacidad'),
     path('estadisticos/generales',views.estadisticas,name="estadisticas generales"),
     path('estadisticos/getcenso/<id>',views.getCenso,name="estadisticas generales"),
+    path('estadisticos/vergrafica/<id>',views.verGrafica,name="estadisticas individuales"),
 ]
