@@ -12,10 +12,12 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 </head>
 
-<body>
+<body ></body>>
     <div class="container-md">
+
         <div class="row">
             {% if censo %}
+            <input type="number" hidden value="{{censo.idcenso}}" id="ncenso">
             <h6 class="display-6">Nombre: {{censo.nombre_censo}}</h6>
             <h6 class="display-6">Discapacidad:{{censo.discapacidad}}</h6>
             <h6 class="display-6">Fecha:{{censo.fecha}}</h6>
@@ -25,17 +27,17 @@
         </div>
         <div class="row">
             <h1 class="display-4">Cantidad vs Localidad</h1>
-            <div style="width: 800px;"><canvas id="acquisitions"></canvas></div>
+            <div style="width: 800px;"><canvas id="grafica1"></canvas></div>
         </div>
-        <div class="row">
-            <h1 class="display-4">Cantidad vs Zona</h1>
-        </div>
+        
         <div class="row">
             <div class="col">
                 <h1 class="display-6">Cantidad vs Localidad # Mujeres</h1>
+                <div style="width: 600px;"><canvas id="grafica3"></canvas></div>
             </div>
             <div class="col">
                 <h1 class="display-6">Cantidad vs Localidad # Hombres </h1>
+                <div style="width: 600px;"><canvas id="grafica4"></canvas></div>
 
             </div>
         </div>
@@ -44,6 +46,7 @@
     </div>
     <script src="{% static 'js/chartjs/chart.umd.js' %}"></script>
     <script>
+        let ncenso = document.getElementById('ncenso').value;
         const options = {
             method: 'GET',
             mode: 'no-cors',
@@ -51,43 +54,75 @@
             redirect: 'follow',
         };
 
-        fetch('http://127.0.0.1:8000/estadisticos/getcenso/2', options)
+        fetch('http://127.0.0.1:8000/estadisticos/getcenso/' + ncenso, options)
             .then(response => response.json())
             .then(data => {
-                console.log('El objeto')
-                let obtenido = JSON.parse(data[1])
-                console.log(obtenido);
-                console.log('el json')
-                console.log(data[0]);
+                const datamap = [];
+                let obtenido = JSON.parse(data[1]);
+                for (let i = 0; i < obtenido.length; i++) {
+                    let datos = obtenido[i].fields;
+                    datamap.push(datos);
+                }
+                console.log(datamap);
+                const localidades = JSON.parse(data[2]);
+                console.log(localidades);
+                (async function () {
+                    new Chart(
+                        document.getElementById('grafica1'),
+                        {
+                            type: 'bar',
+                            data: {
+                                labels: datamap.map(row =>  localidades[row.localidad]),                          
+                                
+                                datasets: [
+                                    {
+                                        label: 'Cantidad de Personas',
+                                        data: datamap.map(row => row.cantmujeres + row.cantHombres)
+                                    }
+                                ]
+                            }
+                        }
+                    );
+                })();
+
+                (async function () {
+                    new Chart(
+                        document.getElementById('grafica3'),
+                        {
+                            type: 'bar',
+                            data: {
+                                labels: datamap.map(row =>  localidades[row.localidad]),
+                                datasets: [
+                                    {
+                                        label: 'Cantidad de Personas',
+                                        data: datamap.map(row => row.cantmujeres )
+                                    }
+                                ]
+                            }
+                        }
+                    );
+                })();
+
+                (async function () {
+                    new Chart(
+                        document.getElementById('grafica4'),
+                        {
+                            type: 'bar',
+                            data: {
+                                labels: datamap.map(row =>  localidades[row.localidad]),
+                                datasets: [
+                                    {
+                                        label: 'Cantidad de Personas',
+                                        data: datamap.map(row => row.cantHombres)
+                                    }
+                                ]
+                            }
+                        }
+                    );
+                })();
             })
             .catch(err => console.error(err));
-        (async function () {
-            const data = [
-                { year: 2010, count: 10 },
-                { year: 2011, count: 20 },
-                { year: 2012, count: 15 },
-                { year: 2013, count: 25 },
-                { year: 2014, count: 22 },
-                { year: 2015, count: 30 },
-                { year: 2016, count: 28 },
-            ];
 
-            new Chart(
-                document.getElementById('acquisitions'),
-                {
-                    type: 'bar',
-                    data: {
-                        labels: data.map(row => row.year),
-                        datasets: [
-                            {
-                                label: 'Acquisitions by year',
-                                data: data.map(row => row.count)
-                            }
-                        ]
-                    }
-                }
-            );
-        })();
     </script>
 </body>
 

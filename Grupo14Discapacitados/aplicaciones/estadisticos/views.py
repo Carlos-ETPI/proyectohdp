@@ -1,11 +1,13 @@
+import json
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView
-from .models import Censo, Empresa,Discapacidad, Zona
+from .models import Censo, Empresa,Discapacidad, Localidad, Zona
 from django.urls import reverse_lazy
 from .forms import EmpresaForm,DiscapacidadForm
 from django.contrib import messages
 from django.core.serializers import serialize 
+
 
 # Create your views here.
 def prueba(request):
@@ -65,6 +67,12 @@ def getCenso(request,id):
     data= list()
     data.append(serialize('json',Censo.objects.filter(idcenso=id)))
     data.append(serialize('json',Zona.objects.filter(censo=id)))
+    i=0 
+    localidad={}
+    for local in Zona.objects.filter(censo=id):
+        print(local.localidad.nombre)
+        localidad[local.localidad.idlocalidad]=local.localidad.nombre
+    data.append(json.dumps(localidad))
     return JsonResponse(data,safe=False)
 
 def verGrafica(request,id):
@@ -75,7 +83,17 @@ def verGrafica(request,id):
 
     return render(request,'estadisticos/vergraficos.html',contexto)
 
-
+def getGenerales(request):
+    data= list()
+    data.append(serialize('json',Censo.objects.filter(isGeneral=True)))
+    for cen in Censo.objects.filter(isGeneral=True) :
+        data.append(serialize('json',Zona.objects.filter(censo=cen)))
+        localidad={}
+        for local in Zona.objects.filter(censo=cen) :
+            print(local.localidad.nombre)
+            localidad[local.localidad.idlocalidad]=local.localidad.nombre
+        data.append(json.dumps(localidad))
+    return JsonResponse(data,safe=False)
 
 
 

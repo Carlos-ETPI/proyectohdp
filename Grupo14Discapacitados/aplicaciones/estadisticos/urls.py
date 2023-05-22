@@ -13,4 +13,5 @@ urlpatterns = [
     path('estadisticos/generales',views.estadisticas,name="estadisticas generales"),
     path('estadisticos/getcenso/<id>',views.getCenso,name="estadisticas generales"),
     path('estadisticos/vergrafica/<id>',views.verGrafica,name="estadisticas individuales"),
+    path('estadisticos/getgenerales',views.getGenerales,name="estadisticas generales"),
 ]
